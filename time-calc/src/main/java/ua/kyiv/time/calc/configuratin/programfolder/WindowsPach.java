@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.kyiv.time.calc.configuratin;
+package ua.kyiv.time.calc.configuratin.programfolder;
 
 import java.io.File;
-
-import ua.kyiv.time.calc.configuratin.programfolder.PachProgram;
 
 /**
  *

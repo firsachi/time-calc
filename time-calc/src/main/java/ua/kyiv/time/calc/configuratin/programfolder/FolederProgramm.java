@@ -5,8 +5,6 @@
  */
 package ua.kyiv.time.calc.configuratin.programfolder;
 
-import ua.kyiv.time.calc.configuratin.WindowsPach;
-
 /**
  *
  * @author firsov
