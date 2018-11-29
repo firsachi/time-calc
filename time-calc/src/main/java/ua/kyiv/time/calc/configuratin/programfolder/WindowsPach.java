@@ -5,8 +5,6 @@
  */
 package ua.kyiv.time.calc.configuratin.programfolder;
 
-import java.io.File;
-
 /**
  *
  * @author firsov
@@ -17,12 +15,7 @@ public class WindowsPach implements PachProgram{
 
     @Override
     public String getPachDetabase() {
-        String path = System.getenv("APPDATA") + FOLDER_APPLICATION;
-        File pathFile = new File(path);
-        pathFile.mkdirs();
-        return path;
+        return System.getenv("APPDATA") + FOLDER_APPLICATION;
     }
-    
-    
-    
+      
 }
