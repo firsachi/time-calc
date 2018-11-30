@@ -1,4 +1,4 @@
-package ua.kyiv.time.calc;
+package ua.kyiv.time.calc.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +14,6 @@ public class FXMLController implements Initializable {
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
         label.setText("Hello World!");
     }
     

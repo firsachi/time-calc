@@ -5,6 +5,8 @@
  */
 package ua.kyiv.time.calc.configuratin;
 
+import java.util.Locale;
+
 import ua.kyiv.time.calc.configuratin.programfolder.FolederProgramm;
 
 /**
@@ -17,9 +19,16 @@ public class SettingsApplication {
     
     public final static String USER_APLICATION_FOLDER;
     
+    private static Locale locale;
+    
     static  {
         FolederProgramm folder = new FolederProgramm();
         USER_APLICATION_FOLDER = folder.pachProgamm();
+        locale = new Locale("uk");
     }
+
+	public static Locale getLocale() {
+		return locale;
+	}
     
 }

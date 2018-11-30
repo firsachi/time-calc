@@ -2,21 +2,28 @@ package ua.kyiv.time.calc;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ua.kyiv.time.calc.configuratin.SettingsApplication;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-  
+    	FXMLLoader fXMLLoader = new FXMLLoader();
+    	fXMLLoader.setLocation(getClass().getResource("/fxml/Scene.fxml"));
+    	fXMLLoader.setResources(ResourceBundle.getBundle("i18n.Main", 
+                SettingsApplication.getLocale()));
+    	Parent root = fXMLLoader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle(fXMLLoader.getResources().getString("key.title"));
         stage.setScene(scene);
         stage.show();
     }
