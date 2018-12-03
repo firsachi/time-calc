@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="332.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kyiv.time.calc.controllers.FXMLController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="384.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.kyiv.time.calc.controllers.FXMLController">
    <children>
       <MenuBar>
         <menus>
@@ -17,9 +17,9 @@
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="itemAirline" mnemonicParsing="false" onAction="#actionItemAirline" text="airline" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -46,16 +46,20 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="%key.date" />
-            <Label text="%key.time" GridPane.rowIndex="1" />
-            <Label text="var" GridPane.rowIndex="2" />
+            <Label text="%key.hour" GridPane.rowIndex="1" />
+            <Label text="var" GridPane.rowIndex="3" />
             <DatePicker fx:id="dateDeparture" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
-            <TextField maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox fx:id="comboBoxTimeZone" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="%key.airline" GridPane.rowIndex="3" />
-            <ComboBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="comboBoxTimeZone" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="%key.airline" GridPane.rowIndex="4" />
+            <ComboBox fx:id="comboboxAirline" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="textFiledHour" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="%key.minute" GridPane.rowIndex="2" />
+            <TextField fx:id="textFiledMinute" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <opaqueInsets>
             <Insets bottom="6.0" />

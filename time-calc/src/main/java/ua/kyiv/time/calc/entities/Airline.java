@@ -27,12 +27,19 @@ public class Airline implements Serializable {
 	private static final long serialVersionUID = -3503154267687059173L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
 
-	private String timeFrame;
+	private int timeFrame;
+	
+	
+
+	public Airline() {
+		super();
+	}
+
 
 	public int getId() {
 		return id;
@@ -50,11 +57,13 @@ public class Airline implements Serializable {
 		this.name = name;
 	}
 
-	public String getTimeFrame() {
+
+	public int getTimeFrame() {
 		return timeFrame;
 	}
 
-	public void setTimeFrame(String timeFrame) {
+
+	public void setTimeFrame(int timeFrame) {
 		this.timeFrame = timeFrame;
 	}
 
