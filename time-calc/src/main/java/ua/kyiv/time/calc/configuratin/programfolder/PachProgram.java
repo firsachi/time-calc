@@ -10,6 +10,6 @@ package ua.kyiv.time.calc.configuratin.programfolder;
  * @author firsov
  */
 public interface PachProgram {
-    
-    String getPachDetabase();
+
+	String getPachDetabase();
 }

@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 /**
  *
  * @author firsov
@@ -21,8 +20,8 @@ import javax.persistence.Table;
 @Entity
 @Table
 public class Airline implements Serializable {
-    
-    /**
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3503154267687059173L;
@@ -30,40 +29,33 @@ public class Airline implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int id;
-    
-    private String name;
-    
-    
-    private String timeFrame;
 
+	private String name;
+
+	private String timeFrame;
 
 	public int getId() {
 		return id;
 	}
 
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public String getTimeFrame() {
 		return timeFrame;
 	}
 
-
 	public void setTimeFrame(String timeFrame) {
 		this.timeFrame = timeFrame;
 	}
-    
+
 }
