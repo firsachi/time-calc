@@ -10,8 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.hibernate.tuple.PropertyFactory;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,22 +20,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import ua.kyiv.time.calc.configuratin.SettingsApplication;
 import ua.kyiv.time.calc.dao.AirlineDao;
-import ua.kyiv.time.calc.entities.Airline;
+
 
 public class FXMLController implements Initializable {
 	
@@ -62,7 +56,7 @@ public class FXMLController implements Initializable {
 	private ComboBox<Integer> comboBoxTimeZone;
 	
 	@FXML 
-	private ComboBox<Airline> comboboxAirline;
+	private ComboBox<String> comboboxAirline;
 
 	@FXML
 	private Button buttonCount;
@@ -101,6 +95,9 @@ public class FXMLController implements Initializable {
 		Integer hour = new Integer(textFiledHour.getText());
 		Integer minute = new Integer(textFiledMinute.getText());
 		c.set(ld.getYear(), ld.getMonthValue() - 1, ld.getDayOfMonth(), hour, minute);
+		int clock = airlineDao.getName(comboboxAirline.getValue());
+		clock = -1 * clock;
+		c.add(c.HOUR, clock);
 		Date date = c.getTime();
 		textRsult.setText(date.toString());
 	}
@@ -134,7 +131,11 @@ public class FXMLController implements Initializable {
 
 		this.comboBoxTimeZone.setItems(listTimeZone);
 		this.comboBoxTimeZone.setValue(listTimeZone.get(0));
-		//comboboxAirline.setItems(SettingsApplication.getObservableList());
+		ObservableList<String> list = FXCollections.observableArrayList();
+		list.addAll(SettingsApplication.getObservableList().stream()
+				.map(airline -> new String(airline.getName()))
+				.collect(Collectors.toList()));
+		comboboxAirline.setItems(list);
 	}
 	
 	

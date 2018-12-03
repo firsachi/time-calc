@@ -41,7 +41,21 @@ public class AirlineDao {
 		}catch(HibernateException ex) {
 		    ex.printStackTrace();
 		}
-		System.out.println(result.size());
+		return result;
+	}
+
+	public int getName(String name) {
+		int result = 0;
+		String query = "FROM Airline a WHERE a.name = :name";
+		try(Session session = HibernateConfig.getSession();) {
+			session.beginTransaction();
+			TypedQuery<Airline> typedQuery = session.createQuery(query, Airline.class);
+			typedQuery.setParameter("name", name);
+			Airline airline = typedQuery.getSingleResult();
+			return airline.getTimeFrame();
+		}catch(HibernateException ex) {
+		    ex.printStackTrace();
+		}
 		return result;
 	}
 
