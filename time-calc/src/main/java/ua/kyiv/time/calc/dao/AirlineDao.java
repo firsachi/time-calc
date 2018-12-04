@@ -6,6 +6,7 @@ package ua.kyiv.time.calc.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.HibernateException;
@@ -44,19 +45,20 @@ public class AirlineDao {
 		return result;
 	}
 
-	public int getName(String name) {
-		int result = 0;
+	public Airline findName(String name) {
 		String query = "FROM Airline a WHERE a.name = :name";
 		try(Session session = HibernateConfig.getSession();) {
 			session.beginTransaction();
 			TypedQuery<Airline> typedQuery = session.createQuery(query, Airline.class);
 			typedQuery.setParameter("name", name);
 			Airline airline = typedQuery.getSingleResult();
-			return airline.getTimeFrame();
+			return airline;
 		}catch(HibernateException ex) {
 		    ex.printStackTrace();
+		}catch (NoResultException e) {
+			return null;
 		}
-		return result;
+		return null;
 	}
 
 }
