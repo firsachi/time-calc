@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,13 +33,16 @@ import ua.kyiv.time.calc.configuratin.SettingsApplication;
 import ua.kyiv.time.calc.dao.AirlineDao;
 
 
-public class FXMLController implements Initializable {
+public class ControllerMain implements Initializable {
 	
 	private final ObservableList<Integer> listTimeZone;
 	private AirlineDao airlineDao;
 	
 	@FXML
 	private MenuItem itemAirline;
+	
+	@FXML 
+	private MenuItem itemClose;
 
 	@FXML
 	private TextField textRsult;
@@ -60,11 +64,17 @@ public class FXMLController implements Initializable {
 
 	@FXML
 	private Button buttonCount;
-
+	
 	{
 		listTimeZone = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
 				18, 19, 20, 21);
 		airlineDao = new AirlineDao();
+	}
+	
+	@FXML
+	private void closeButtonAction() {
+		Platform.exit();
+		System.exit(0);
 	}
 	
 	@FXML
