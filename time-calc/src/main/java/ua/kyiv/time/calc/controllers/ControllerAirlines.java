@@ -30,7 +30,7 @@ import ua.kyiv.time.calc.entities.Airline;
  * @author firsov
  *
  */
-public class ControllerAirline implements Initializable {
+public class ControllerAirlines implements Initializable {
 	
 	private AirlineDao airlineDao;
 	
@@ -57,21 +57,22 @@ public class ControllerAirline implements Initializable {
 	@FXML
 	private void actionAddAirline() {
 		String pachSceneAirline = "/fxml/DialogAirline.fxml";
+		String localeAirline = "i18n.DialogAirlane";
 		try {
 	        FXMLLoader fxmlLoader = new FXMLLoader();
 	        fxmlLoader.setLocation(getClass().getResource(pachSceneAirline));
-	        //fxmlLoader.setResources(ResourceBundle.getBundle(localeAirline,
-	         //       SettingsApplication.getLocale()));
+	        fxmlLoader.setResources(ResourceBundle.getBundle(localeAirline,
+	               SettingsApplication.getLocale()));
 	        Stage stage = new Stage();
 	        Parent root = fxmlLoader.load();
 	        stage.setScene(new Scene(root));
-	      //  stage.setTitle(fxmlLoader.getResources().getString("key.title"));
+	        stage.setTitle(fxmlLoader.getResources().getString("key.title"));
 	        stage.sizeToScene();
 	        stage.initModality(Modality.APPLICATION_MODAL);
 	        stage.initOwner(buttonAddAirline.getScene().getWindow());
 	        stage.show();
 	    } catch (IOException ex) {
-	        Logger.getLogger(ControllerAirline.class.getName()).log(Level.SEVERE, null, ex);
+	        Logger.getLogger(ControllerAirlines.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 	}
 	

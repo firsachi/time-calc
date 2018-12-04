@@ -79,7 +79,7 @@ public class ControllerMain implements Initializable {
 	
 	@FXML
 	private void actionItemAirline(ActionEvent event) {
-		String localeAirline = "i18n.DialogAirlane";
+		String localeAirline = "i18n.DialogAirlanes";
 		String pachSceneAirline = "/fxml/Airline.fxml";
 		try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -89,12 +89,12 @@ public class ControllerMain implements Initializable {
             Stage stage = new Stage();
             Parent root = fxmlLoader.load();
             stage.setScene(new Scene(root));
-            stage.setTitle(fxmlLoader.getResources().getString("key.title"));
+            //stage.setTitle(fxmlLoader.getResources().getString("key.tittle"));
             stage.sizeToScene();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(ControllerAirline.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ControllerAirlines.class.getName()).log(Level.SEVERE, null, ex);
         }
 	}
 	
@@ -105,7 +105,7 @@ public class ControllerMain implements Initializable {
 		Integer hour = new Integer(textFiledHour.getText());
 		Integer minute = new Integer(textFiledMinute.getText());
 		c.set(ld.getYear(), ld.getMonthValue() - 1, ld.getDayOfMonth(), hour, minute);
-		int clock = airlineDao.getName(comboboxAirline.getValue());
+		int clock = airlineDao.findName(comboboxAirline.getValue()).getTimeFrame();
 		clock = -1 * clock;
 		c.add(c.HOUR, clock);
 		Date date = c.getTime();
