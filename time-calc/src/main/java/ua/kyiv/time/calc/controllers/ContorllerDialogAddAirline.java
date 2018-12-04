@@ -10,7 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import ua.kyiv.time.calc.dao.AirlineDao;
 import ua.kyiv.time.calc.entities.Airline;
 
@@ -28,6 +30,8 @@ public class ContorllerDialogAddAirline implements Initializable{
 	private TextField id;
 	
 	@FXML
+	private Label nameAirline;
+	
 	private TextField nameAirlane;
 	
 	@FXML
@@ -35,6 +39,12 @@ public class ContorllerDialogAddAirline implements Initializable{
 	
 	@FXML
 	private Button butoonOk;
+	
+	@FXML
+	private Button buttonCancel;
+	
+	@FXML
+	private Label errorNameAirline;
 	
 	{
 		airline = new Airline();
@@ -55,14 +65,25 @@ public class ContorllerDialogAddAirline implements Initializable{
 		tmp.setId(new Integer(id.getText()));
 		tmp.setName(nameAirlane.getText());
 		tmp.setTimeFrame(new Integer(timeFrame.getText()));
-		airlineDao.add(tmp);
+		if(null == airlineDao.findName(nameAirlane.getText())) {
+			airlineDao.add(tmp);
+			actionButtonCancel();
+		}else {
+			nameAirline.setStyle("-fx-text-fill: red");
+			errorNameAirline.setText("%key.errorNameAirline");
+		}
+		
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		id.setText(Integer.toString(airline.getId()));
-		nameAirlane.setText(airline.getName());
-		timeFrame.setText(Integer.toString(airline.getTimeFrame()));
+		
 	}
+	
+	@FXML
+    private void actionButtonCancel(){
+		Stage stage = (Stage) buttonCancel.getScene().getWindow();
+        stage.close();
+    }
 
 }
