@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ua.kyiv.time.calc.dao.AirlineDao;
 import ua.kyiv.time.calc.entities.Airline;
+import ua.kyiv.time.calc.validators.ValidatorForm;
 
 /**
  * @author firsov
@@ -23,22 +24,26 @@ import ua.kyiv.time.calc.entities.Airline;
 public class ContorllerDialogAddAirline implements Initializable{
 	
 	
-	private AirlineDao airlineDao;
+	private AirlineDao airlineDao = new AirlineDao();
+	
+	private ValidatorForm validatorForm = new ValidatorForm(); 
+	
 	private Airline airline;
 	
 	@FXML
-	private TextField id;
+	private TextField textFiledId;
 	
 	@FXML
-	private Label nameAirline;
-	
-	private TextField nameAirlane;
+	private Label labelNameAirline;
 	
 	@FXML
-	private TextField timeFrame;
+	TextField textFiledNameAirline;
 	
 	@FXML
-	private Button butoonOk;
+	private TextField textFiledTimeFrame;
+	
+	@FXML
+	private Button buttonOk;
 	
 	@FXML
 	private Button buttonCancel;
@@ -48,7 +53,6 @@ public class ContorllerDialogAddAirline implements Initializable{
 	
 	{
 		airline = new Airline();
-		airlineDao = new AirlineDao();
 	}
 
 	public Airline getAirline() {
@@ -60,19 +64,22 @@ public class ContorllerDialogAddAirline implements Initializable{
 	}
 	
 	@FXML
-	private void actionButtonOK(ActionEvent event) {
-		Airline tmp = new Airline();
-		tmp.setId(new Integer(id.getText()));
-		tmp.setName(nameAirlane.getText());
-		tmp.setTimeFrame(new Integer(timeFrame.getText()));
-		if(null == airlineDao.findName(nameAirlane.getText())) {
-			airlineDao.add(tmp);
-			actionButtonCancel();
-		}else {
-			nameAirline.setStyle("-fx-text-fill: red");
-			errorNameAirline.setText("%key.errorNameAirline");
+	private void actionButtonOK(ActionEvent event) {		
+		boolean name = validatorForm.textFiledNotEmpty(textFiledNameAirline, errorNameAirline, "jgdfjgl");
+	//	boolean validTime = validatorForm.textFiledNotEmpty(textFiledTimeFrame, )
+		if(name) {
+			Airline tmp = new Airline();
+			tmp.setId(new Integer(textFiledId.getText()));
+			tmp.setName(textFiledNameAirline.getText());
+			tmp.setTimeFrame(new Integer(textFiledTimeFrame.getText()));
+			if(null == airlineDao.findName(tmp.getName())) {
+				airlineDao.add(tmp);
+				actionButtonCancel();
+			}else {
+				labelNameAirline.setStyle("-fx-text-fill: red;");
+				errorNameAirline.setText("%key.errorNameAirline");
+			}
 		}
-		
 	}
 
 	@Override

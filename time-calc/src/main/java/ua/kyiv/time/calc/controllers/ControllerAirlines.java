@@ -9,8 +9,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,7 +30,7 @@ import ua.kyiv.time.calc.entities.Airline;
  */
 public class ControllerAirlines implements Initializable {
 	
-	private AirlineDao airlineDao;
+	private AirlineDao airlineDao = new AirlineDao();
 	
 	@FXML
 	private Button buttonAddAirline;
@@ -51,7 +49,7 @@ public class ControllerAirlines implements Initializable {
 	private TableColumn<Airline, String> timeFrame;
 	
 	{
-		airlineDao = new AirlineDao();
+		
 	}
 	
 	@FXML
@@ -65,7 +63,9 @@ public class ControllerAirlines implements Initializable {
 	               SettingsApplication.getLocale()));
 	        Stage stage = new Stage();
 	        Parent root = fxmlLoader.load();
-	        stage.setScene(new Scene(root));
+	        Scene scene = new Scene(root);
+	        scene.getStylesheets().add("/styles/Styles.css");
+	        stage.setScene(scene);
 	        stage.setTitle(fxmlLoader.getResources().getString("key.title"));
 	        stage.sizeToScene();
 	        stage.initModality(Modality.APPLICATION_MODAL);
