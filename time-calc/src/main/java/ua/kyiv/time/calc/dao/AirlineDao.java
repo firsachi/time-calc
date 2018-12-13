@@ -13,7 +13,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import ua.kyiv.time.calc.configuratin.HibernateConfig;
-import ua.kyiv.time.calc.configuratin.SettingsApplication;
 import ua.kyiv.time.calc.entities.Airline;
 
 /**
@@ -26,7 +25,6 @@ public class AirlineDao {
 		try(Session session = HibernateConfig.getSession();) {
 			session.beginTransaction();
 			session.save(airline);
-			SettingsApplication.setObservableAirline(airline);
 		}catch(HibernateException ex) {
 		    ex.printStackTrace();
 		}
