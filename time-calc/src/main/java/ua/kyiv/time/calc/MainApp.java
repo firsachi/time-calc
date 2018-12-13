@@ -3,6 +3,7 @@ package ua.kyiv.time.calc;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +21,10 @@ public class MainApp extends Application {
 		Scene scene = new Scene(root);
 
 		stage.setTitle(fXMLLoader.getResources().getString("key.title"));
-		stage.setOnCloseRequest(close -> System.exit(0));
+		stage.setOnCloseRequest(close -> {
+			Platform.exit();
+			System.exit(0);
+			});
 		stage.setScene(scene);
 		stage.show();
 	}
