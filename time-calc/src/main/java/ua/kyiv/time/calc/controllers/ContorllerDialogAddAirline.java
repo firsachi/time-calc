@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -30,6 +31,8 @@ public class ContorllerDialogAddAirline implements Initializable{
 	
 	private Airline airline;
 	
+	private ComboBox<Airline> airlines;
+	
 	@FXML
 	private TextField textFiledId;
 	
@@ -38,6 +41,9 @@ public class ContorllerDialogAddAirline implements Initializable{
 	
 	@FXML
 	private TextField textFiledNameAirline;
+	
+	@FXML
+	private Label errorLabelNameAirline;
 	
 	@FXML
 	private TextField textFiledTimeFrame;
@@ -59,6 +65,12 @@ public class ContorllerDialogAddAirline implements Initializable{
 		super();
 		this.modelAirlinesTable = modelAirlinesTable;
 	}
+	
+	public ContorllerDialogAddAirline(ObservableList<Airline> modelAirlinesTable, ComboBox<Airline> airlines) {
+		super();
+		this.modelAirlinesTable = modelAirlinesTable;
+		this.airlines = airlines;
+	}
 
 	public Airline getAirline() {
 		return airline;
@@ -69,25 +81,38 @@ public class ContorllerDialogAddAirline implements Initializable{
 	}
 	
 	@FXML
-	private void actionButtonOK(ActionEvent event) {		
+	private void actionButtonOK(ActionEvent event) {
 	//	boolean name = validatorForm.textFiledNotEmpty(textFiledNameAirline, errorNameAirline, "jgdfjgl");
 	//	boolean validTime = validatorForm.textFiledNotEmpty(textFiledTimeFrame, )
 	//	if(name) {
-			Airline tmp = new Airline();
-			if(textFiledId.getText().isEmpty()) {
-				tmp.setId(0);
-			}else {
-				tmp.setId(new Integer(textFiledId.getText()));
+		String regex = "[0-9]+";
+		System.out.println();
+			if( textFiledNameAirline.getText().isEmpty()) {
+				labelNameAirline.setStyle("-fx-text-fill: red;");
+				textFiledNameAirline.setStyle("-fx-border-color: red;");
+				errorLabelNameAirline.setText("Поле не повинне бути порожнім!");
+			}else if(textFiledNameAirline.getText().matches(regex)) {
+				labelNameAirline.setStyle("-fx-text-fill: red;");
+				textFiledNameAirline.setStyle("-fx-border-color: red;");
+				errorLabelNameAirline.setText("Назва введена неправильно!");
 			}
-			tmp.setName(textFiledNameAirline.getText());
-			tmp.setTimeFrame(new Integer(textFiledTimeFrame.getText()));
-			if(null == airlineDao.findName(tmp.getName())) {
+			else if(null == airlineDao.findName(textFiledNameAirline.getText())) {
+				Airline tmp = new Airline();
+				if(textFiledId.getText().isEmpty()) {
+					tmp.setId(0);
+				}else {
+					tmp.setId(new Integer(textFiledId.getText()));
+				}
+				tmp.setName(textFiledNameAirline.getText());
+				tmp.setTimeFrame(new Integer(textFiledTimeFrame.getText()));
 				airlineDao.add(tmp);
 				modelAirlinesTable.add(tmp);
+				airlines.setValue(tmp);
 				actionButtonCancel();
 			}else {
 				labelNameAirline.setStyle("-fx-text-fill: red;");
-				errorNameAirline.setText("%key.errorNameAirline");
+				textFiledNameAirline.setStyle("-fx-border-color: red;");
+				errorLabelNameAirline.setText("Така назва вжеіснує!");
 			}
 		//}
 	}
