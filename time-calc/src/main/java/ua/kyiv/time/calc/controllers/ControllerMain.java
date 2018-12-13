@@ -64,6 +64,9 @@ public class ControllerMain implements Initializable {
 	
 	@FXML 
 	private ComboBox<Airline> comboboxAirline;
+	
+	@FXML
+	private Button addAirline;
 
 	@FXML
 	private Button buttonCount;
@@ -74,6 +77,32 @@ public class ControllerMain implements Initializable {
 		ObservableList<Airline> listAirline = FXCollections.observableArrayList();
 		listAirline.addAll(airlineDao.all());
 		modelMain.setObservableListAirline(listAirline);
+	}
+	
+	@FXML
+	private void addAirlineAction() {
+		String pachSceneAirline = "/fxml/DialogAirline.fxml";
+		String localeAirline = "i18n.DialogAirlane";
+		try {
+	        FXMLLoader fxmlLoader = new FXMLLoader();
+	        fxmlLoader.setControllerFactory(c -> {
+	        	return new ContorllerDialogAddAirline(modelMain.getObservableListAirline(), comboboxAirline);
+	        });
+	        fxmlLoader.setLocation(getClass().getResource(pachSceneAirline));
+	        fxmlLoader.setResources(ResourceBundle.getBundle(localeAirline,
+	               SettingsApplication.getLocale()));
+	        Stage stage = new Stage();
+	        Parent root = fxmlLoader.load();
+	        Scene scene = new Scene(root);
+	        scene.getStylesheets().add("/styles/Styles.css");
+	        stage.setScene(scene);
+	        stage.setTitle(fxmlLoader.getResources().getString("key.title.add"));
+	        stage.sizeToScene();
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        stage.show();
+	    } catch (IOException ex) {
+	        Logger.getLogger(ControllerAirlines.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 	}
 	
 	@FXML
@@ -152,5 +181,6 @@ public class ControllerMain implements Initializable {
 		}
 		this.textFiledHour.setText("0");
 		this.textFiledMinute.setText("0");
+		
 	}
 }
