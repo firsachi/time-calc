@@ -18,7 +18,6 @@ public class MainApp extends Application {
 		fXMLLoader.setResources(ResourceBundle.getBundle("i18n.Main", SettingsApplication.getLocale()));
 		Parent root = fXMLLoader.load();
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add("/styles/Styles.css");
 
 		stage.setTitle(fXMLLoader.getResources().getString("key.title"));
 		stage.setScene(scene);
