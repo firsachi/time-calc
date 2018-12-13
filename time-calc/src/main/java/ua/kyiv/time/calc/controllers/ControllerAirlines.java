@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,7 +22,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.kyiv.time.calc.configuratin.SettingsApplication;
-import ua.kyiv.time.calc.dao.AirlineDao;
 import ua.kyiv.time.calc.entities.Airline;
 
 /**
@@ -30,11 +30,10 @@ import ua.kyiv.time.calc.entities.Airline;
  */
 public class ControllerAirlines implements Initializable {
 	
-	private AirlineDao airlineDao = new AirlineDao();
+	private ObservableList<Airline> modelAirlinesTable;
 	
 	@FXML
 	private Button buttonAddAirline;
-	
 	
 	@FXML
 	private TableView<Airline> tableAirlie;
@@ -48,16 +47,22 @@ public class ControllerAirlines implements Initializable {
 	@FXML
 	private TableColumn<Airline, String> timeFrame;
 	
-	{
-		
-	}
 	
+	
+	public ControllerAirlines(ObservableList<Airline> modelAirlinesTable) {
+		super();
+		this.modelAirlinesTable = modelAirlinesTable;
+	}
+
 	@FXML
 	private void actionAddAirline() {
 		String pachSceneAirline = "/fxml/DialogAirline.fxml";
 		String localeAirline = "i18n.DialogAirlane";
 		try {
 	        FXMLLoader fxmlLoader = new FXMLLoader();
+	        fxmlLoader.setControllerFactory(c -> {
+	        	return new ContorllerDialogAddAirline(modelAirlinesTable);
+	        });
 	        fxmlLoader.setLocation(getClass().getResource(pachSceneAirline));
 	        fxmlLoader.setResources(ResourceBundle.getBundle(localeAirline,
 	               SettingsApplication.getLocale()));
@@ -81,7 +86,8 @@ public class ControllerAirlines implements Initializable {
 		idAirlline.setCellValueFactory(new PropertyValueFactory<>("id"));
 		nameAirlane.setCellValueFactory(new PropertyValueFactory<>("name"));
 		timeFrame.setCellValueFactory(new PropertyValueFactory<>("timeFrame"));
-		tableAirlie.setItems(SettingsApplication.getObservableList());
+		tableAirlie.setItems(modelAirlinesTable);
 	}
+
 
 }

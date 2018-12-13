@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -31,11 +30,14 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import ua.kyiv.time.calc.configuratin.SettingsApplication;
 import ua.kyiv.time.calc.dao.AirlineDao;
+import ua.kyiv.time.calc.entities.Airline;
+import ua.kyiv.time.calc.models.ModelMain;
 
 
 public class ControllerMain implements Initializable {
 	
 	private final ObservableList<Integer> listTimeZone;
+	private ModelMain modelMain;
 	
 	private AirlineDao airlineDao = new AirlineDao();
 	
@@ -61,13 +63,17 @@ public class ControllerMain implements Initializable {
 	private ComboBox<Integer> comboBoxTimeZone;
 	
 	@FXML 
-	private ComboBox<String> comboboxAirline;
+	private ComboBox<Airline> comboboxAirline;
 
 	@FXML
 	private Button buttonCount;
 	
 	{
 		listTimeZone = FXCollections.observableArrayList(-12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2,-1, 0, +1, +2, +3, +4, +5, +6, +7, +8, +9, +10, +11, +12);
+		modelMain = new ModelMain();
+		ObservableList<Airline> listAirline = FXCollections.observableArrayList();
+		listAirline.addAll(airlineDao.all());
+		modelMain.setObservableListAirline(listAirline);
 	}
 	
 	@FXML
@@ -82,6 +88,7 @@ public class ControllerMain implements Initializable {
 		String pachSceneAirline = "/fxml/Airline.fxml";
 		try {
             FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setControllerFactory(cf -> {return new ControllerAirlines(modelMain.getObservableListAirline());});
             fxmlLoader.setLocation(getClass().getResource(pachSceneAirline));
             fxmlLoader.setResources(ResourceBundle.getBundle(localeAirline,
                     SettingsApplication.getLocale()));
@@ -104,7 +111,7 @@ public class ControllerMain implements Initializable {
 		Integer hour = new Integer(textFiledHour.getText());
 		Integer minute = new Integer(textFiledMinute.getText());
 		c.set(ld.getYear(), ld.getMonthValue() - 1, ld.getDayOfMonth(), hour, minute);
-		int clock = airlineDao.findName(comboboxAirline.getValue()).getTimeFrame();
+		int clock = comboboxAirline.getValue().getTimeFrame();
 		clock = -1 * clock;
 		c.add(c.HOUR, clock);
 		Date date = c.getTime();
@@ -137,15 +144,13 @@ public class ControllerMain implements Initializable {
 			}
 		});
 		this.dateDeparture.setValue(LocalDate.now());
-
 		this.comboBoxTimeZone.setItems(listTimeZone);
 		this.comboBoxTimeZone.setValue(listTimeZone.get(12));
-		ObservableList<String> list = FXCollections.observableArrayList();
-		list.addAll(SettingsApplication.getObservableList().stream()
-				.map(airline -> new String(airline.getName()))
-				.collect(Collectors.toList()));
-		comboboxAirline.setItems(list);
+		this.comboboxAirline.setItems(modelMain.getObservableListAirline());
+		if(0 != modelMain.getObservableListAirline().size()) {
+			this.comboboxAirline.setValue(modelMain.getObservableListAirline().get(0));
+		}
+		this.textFiledHour.setText("0");
+		this.textFiledMinute.setText("0");
 	}
-	
-	
 }

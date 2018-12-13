@@ -6,6 +6,7 @@ package ua.kyiv.time.calc.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ua.kyiv.time.calc.dao.AirlineDao;
 import ua.kyiv.time.calc.entities.Airline;
-import ua.kyiv.time.calc.validators.ValidatorForm;
 
 /**
  * @author firsov
@@ -26,7 +26,7 @@ public class ContorllerDialogAddAirline implements Initializable{
 	
 	private AirlineDao airlineDao = new AirlineDao();
 	
-	private ValidatorForm validatorForm = new ValidatorForm(); 
+	private ObservableList<Airline> modelAirlinesTable;
 	
 	private Airline airline;
 	
@@ -37,7 +37,7 @@ public class ContorllerDialogAddAirline implements Initializable{
 	private Label labelNameAirline;
 	
 	@FXML
-	TextField textFiledNameAirline;
+	private TextField textFiledNameAirline;
 	
 	@FXML
 	private TextField textFiledTimeFrame;
@@ -54,6 +54,11 @@ public class ContorllerDialogAddAirline implements Initializable{
 	{
 		airline = new Airline();
 	}
+	
+	public ContorllerDialogAddAirline(ObservableList<Airline> modelAirlinesTable) {
+		super();
+		this.modelAirlinesTable = modelAirlinesTable;
+	}
 
 	public Airline getAirline() {
 		return airline;
@@ -65,21 +70,26 @@ public class ContorllerDialogAddAirline implements Initializable{
 	
 	@FXML
 	private void actionButtonOK(ActionEvent event) {		
-		boolean name = validatorForm.textFiledNotEmpty(textFiledNameAirline, errorNameAirline, "jgdfjgl");
+	//	boolean name = validatorForm.textFiledNotEmpty(textFiledNameAirline, errorNameAirline, "jgdfjgl");
 	//	boolean validTime = validatorForm.textFiledNotEmpty(textFiledTimeFrame, )
-		if(name) {
+	//	if(name) {
 			Airline tmp = new Airline();
-			tmp.setId(new Integer(textFiledId.getText()));
+			if(textFiledId.getText().isEmpty()) {
+				tmp.setId(0);
+			}else {
+				tmp.setId(new Integer(textFiledId.getText()));
+			}
 			tmp.setName(textFiledNameAirline.getText());
 			tmp.setTimeFrame(new Integer(textFiledTimeFrame.getText()));
 			if(null == airlineDao.findName(tmp.getName())) {
 				airlineDao.add(tmp);
+				modelAirlinesTable.add(tmp);
 				actionButtonCancel();
 			}else {
 				labelNameAirline.setStyle("-fx-text-fill: red;");
 				errorNameAirline.setText("%key.errorNameAirline");
 			}
-		}
+		//}
 	}
 
 	@Override
