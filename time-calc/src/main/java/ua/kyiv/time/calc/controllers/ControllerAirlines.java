@@ -71,7 +71,7 @@ public class ControllerAirlines implements Initializable {
 	        Scene scene = new Scene(root);
 	        scene.getStylesheets().add("/styles/Styles.css");
 	        stage.setScene(scene);
-	        stage.setTitle(fxmlLoader.getResources().getString("key.title"));
+	        stage.setTitle(fxmlLoader.getResources().getString("key.title.add"));
 	        stage.sizeToScene();
 	        stage.initModality(Modality.APPLICATION_MODAL);
 	        stage.initOwner(buttonAddAirline.getScene().getWindow());
