@@ -64,9 +64,16 @@ public class Airline implements Serializable {
 		return timeFrame;
 	}
 
-
 	public void setTimeFrame(int timeFrame) {
 		this.timeFrame = timeFrame;
 	}
+
+
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	
 
 }
